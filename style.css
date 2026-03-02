@@ -1,144 +1,179 @@
 :root {
     --gold: #d4af37;
-    --accent: #e67e22;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.05);
 }
 
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Fira GO', sans-serif;
     background-color: #000;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #fff;
+    color: var(--white);
     overflow-x: hidden;
+}
+
+/* სქროლვის პროგრესის ხაზი ზემოთ */
+.scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%; height: 3px;
+    background: var(--gold);
+    z-index: 1000;
+    transition: width 0.1s;
 }
 
 .parallax-bg {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 110%; /* ოდნავ დიდი პარაალაქსისთვის */
-    height: 110%;
+    top: -10%; left: -10%;
+    width: 120%; height: 120%;
     background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/georgian-wine-harvest-pirosmani-style-art.jpg');
     background-size: cover;
     background-position: center;
     z-index: -2;
-    transform: translateZ(0);
 }
 
 .overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.95) 100%);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.95) 100%);
     z-index: -1;
 }
 
 header {
     text-align: center;
-    padding: 60px 20px 30px;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: 1s all ease;
+    padding: 80px 20px 40px;
 }
 
-header.active {
-    opacity: 1;
-    transform: translateY(0);
+.glass-icon {
+    font-size: 6rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    filter: drop-shadow(0 0 15px var(--gold));
+    animation: float 4s infinite ease-in-out;
 }
 
-.logo-decoration {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
 }
 
 h1 {
-    font-size: clamp(2.2rem, 10vw, 4rem);
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
     color: var(--gold);
     text-transform: uppercase;
-    letter-spacing: 6px;
+    font-weight: 700;
+    letter-spacing: 5px;
     margin: 0;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 
 .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 40px;
-    padding: 20px 20px 100px;
+    gap: 50px;
+    padding: 40px 20px;
 }
 
 .menu-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 20px;
-    padding: 40px;
+    border-radius: 30px;
+    padding: 60px 40px;
     width: 100%;
     max-width: 400px;
     position: relative;
-    transition: 0.4s box-shadow, 0.4s border-color;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .menu-card:hover {
+    transform: scale(1.02) translateY(-10px);
     border-color: var(--gold);
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
 }
 
 .price-tag {
-    background: linear-gradient(45deg, var(--gold), #f1c40f);
+    background: var(--gold);
     color: #000;
-    font-weight: 900;
-    padding: 10px 25px;
+    font-weight: 800;
+    padding: 10px 40px;
     border-radius: 50px;
-    display: inline-block;
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: 50%;
     transform: translateX(-50%);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    white-space: nowrap;
+    font-size: 1.5rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
 h2 {
-    margin-top: 15px;
     text-align: center;
     font-weight: 300;
-    letter-spacing: 2px;
-    color: #eee;
-}
-
-.menu-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
 }
 
 .menu-list li {
     padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    list-style: none;
     font-size: 1.1rem;
-    opacity: 0;
-    transform: translateX(-10px);
+    font-weight: 300;
+    transition: 0.3s;
 }
 
-.menu-list li.show {
-    opacity: 1;
-    transform: translateX(0);
-    transition: 0.4s all ease;
+.menu-list li:hover {
+    padding-left: 10px;
+    color: var(--gold);
 }
 
 .highlight {
-    color: var(--accent) !important;
-    font-weight: bold;
+    color: var(--gold);
+    font-weight: 700 !important;
 }
 
-/* მობილურისთვის ოპტიმიზაცია */
+.glass-contact {
+    background: rgba(212, 175, 55, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--gold);
+    border-radius: 25px;
+    padding: 40px;
+    max-width: 500px;
+    margin: 60px auto 100px;
+    text-align: center;
+}
+
+.call-action {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 1.8rem;
+    text-decoration: none;
+    font-weight: 700;
+    margin: 10px;
+    transition: 0.3s;
+}
+
+.call-action:hover {
+    letter-spacing: 2px;
+}
+
+/* ანიმაციების კლასები JS-ისთვის */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1s all ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 @media (max-width: 600px) {
-    .container { gap: 50px; }
-    .menu-card { padding: 30px 20px; }
-    h1 { letter-spacing: 3px; }
+    .menu-card { padding: 50px 25px; }
+    h1 { font-size: 2.2rem; }
 }

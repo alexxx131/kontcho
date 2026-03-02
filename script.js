@@ -1,35 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Header-ის გამოჩენა
-    setTimeout(() => {
-        document.querySelector('header').classList.add('active');
-    }, 200);
-
-    // 2. Parallax ეფექტი
+    // 1. სქროლვის პროგრესის ხაზი
     window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const bg = document.querySelector('.parallax-bg');
-        bg.style.transform = `translateY(${scrolled * 0.3}px)`;
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.querySelector(".scroll-progress").style.width = scrolled + "%";
     });
 
-    // 3. სიის ელემენტების ტალღისებური გამოჩენა
-    const observerOptions = {
-        threshold: 0.1
-    };
+    // 2. Parallax ფონი
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        document.querySelector('.parallax-bg').style.transform = `translateY(${scrolled * 0.15}px)`;
+    });
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const items = entry.target.querySelectorAll('.menu-list li');
-                items.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.classList.add('show');
-                    }, index * 50);
-                });
+    // 3. Scroll Reveal (ელემენტების გამოჩენა სქროლვისას)
+    const reveal = () => {
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach(el => {
+            const windowHeight = window.innerHeight;
+            const elementTop = el.getBoundingClientRect().top;
+            const elementVisible = 150;
+            if (elementTop < windowHeight - elementVisible) {
+                el.classList.add('active');
             }
         });
-    }, observerOptions);
+    };
 
-    document.querySelectorAll('.menu-card').forEach(card => {
-        observer.observe(card);
+    window.addEventListener('scroll', reveal);
+    reveal(); // პირველივე ჩატვირთვაზე
+
+    // 4. კერძების "ტალღისებური" გამოჩენა
+    const cards = document.querySelectorAll('.menu-card');
+    cards.forEach(card => {
+        const listItems = card.querySelectorAll('li');
+        listItems.forEach((li, index) => {
+            li.style.transitionDelay = `${index * 50}ms`;
+        });
     });
 });
